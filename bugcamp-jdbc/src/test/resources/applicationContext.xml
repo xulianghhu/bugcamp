@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="com.oracle.bugcamp" />
+	<context:property-placeholder location="classpath*:jdbc.properties" />
+
+	<bean name="jdbcConfiguration" class="com.oracle.bugcamp.jdbc.JdbcConfiguration">
+		<property name="driverClass" value="${jdbc.driver.class}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="initialPoolSize" value="${jdbc.initial.pool.size}" />
+		<property name="corePoolSize" value="${jdbc.core.pool.size}" />
+		<property name="maxPoolSize" value="${jdbc.max.pool.size}" />
+		<property name="retryTimes" value="${jdbc.retry.times}" />
+		<property name="aquireIncrement" value="${jdbc.acquire.increment}" />
+		<property name="limitIdleTime" value="${jdbc.limit.idle.time}" />
+		<property name="testSql" value="${jdbc.test.sql}" />
+		<property name="testPeriod" value="${jdbc.test.period}" />
+		<property name="testBeforeUse" value="${jdbc.test.before.use}" />
+		<property name="showSql" value="${jdbc.show.sql}" />
+	</bean>
+
+	<bean name="jdbcDataSource" class="com.oracle.bugcamp.jdbc.JdbcDataSource">
+		<constructor-arg ref="jdbcConfiguration" />
+	</bean>
+
+	<bean name="connectionFactory" class="com.oracle.bugcamp.jdbc.ConnectionFactory">
+		<constructor-arg ref="jdbcConfiguration" />
+	</bean>
+</beans>
